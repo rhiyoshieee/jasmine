@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Valentine Card + Game</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            width: 100%;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* PAGE 1 - WARNING */
+        #page1 {
+            background: linear-gradient(135deg, #1a0000, #330000, #4d0000);
+            color: white;
+            text-align: center;
+        }
+
+        .warning-title {
+            font-size: 60px;
+            font-weight: bold;
+            animation: glowWarning 2s infinite alternate;
+        }
+
+        @keyframes glowWarning {
+            from { text-shadow: 0 0 10px red; }
+            to { text-shadow: 0 0 25px crimson, 0 0 40px red; }
+        }
+
+        .warning-text {
+            font-size: 22px;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 15px 35px;
+            font-size: 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            background: linear-gradient(45deg, #ff0000, #ff4d4d);
+            color: white;
+            margin-top: 30px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        /* PAGE 2 - Message + Game */
+        #page2 {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(135deg, #ffc0cb, #ffdde1, #ffe4e1);
+        }
+
+        #message {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: rgba(255, 240, 245, 0.8);
+        }
+
+        #message h1 {
+            font-family: 'Bradley Hand', 'Comic Sans MS', cursive;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        #message p {
+            font-size: 20px;
+            line-height: 1.6;
+        }
+
+        #game {
+            flex: 1;
+            position: relative;
+            background-color: #ffe4e1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 25px;
+            cursor: pointer;
+            user-select: none;
+            animation: fall 4s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-50px); }
+            100% { transform: translateY(110vh); }
+        }
+
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #d63384;
+        }
+    </style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div id="page1" class="container">
+    <div class="warning-title">⚠ WARNING ⚠</div>
+    <div class="warning-text">
+        This is for <b>ELAINE JASMINE GERALDIZO</b>
+    </div>
+    <button onclick="showPage2()">Proceed</button>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="hidden">
+    <div id="message">
+        <h1>Happy Valentine's Day 💖</h1>
+        <p>
+            Dear ELAINE,<br><br>
+           Happy Valentines Day to you, Elaine! Enjoy your baon grind. Ill join you next time. Enjoy your Valentines Day! 💖<br><br>
+            From,<br>
+            RHIYO
+        </p>
+    </div>
+
+    <div id="game">
+        <div id="score">Score: 0</div>
+    </div>
+</div>
+
+<script>
+function showPage2() {
+    document.getElementById("page1").classList.add("hidden");
+    document.getElementById("page2").classList.remove("hidden");
+
+    // Floating hearts game
+    let score = 0;
+    const game = document.getElementById('game');
+    const scoreDisplay = document.getElementById('score');
+
+    function createHeart() {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 90 + "vw";
+        heart.style.top = "-50px";
+        heart.style.fontSize = (20 + Math.random() * 30) + "px";
+
+        heart.addEventListener('click', () => {
+            score++;
+            scoreDisplay.textContent = 'Score: ' + score;
+            heart.remove();
+        });
+
+        game.appendChild(heart);
+
+        setTimeout(() => {
+            if (heart.parentElement) heart.remove();
+        }, 4000);
+    }
+
+    setInterval(createHeart, 700);
+}
+</script>
+
+</body>
+</html>
